@@ -1,0 +1,11 @@
+
+blacklist = ["insiders", "rc"]
+
+# comments
+# whitelist = ""
+
+# Remove prefix. Note the trailing dash.
+# strip_prefix = "linux-arm-"
+
+## Removes suffix. Note leading dash.
+# strip_suffix = "-alpine"

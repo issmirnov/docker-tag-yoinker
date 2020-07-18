@@ -1,0 +1,4 @@
+blacklist = ["insiders", "rc"]
+# whitelist = ""
+# strip_prefix = ""
+# strip_suffix = ""

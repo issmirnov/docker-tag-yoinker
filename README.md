@@ -1,0 +1,1 @@
+We don't need https://github.com/itchyny/gojq, since we can unmarshall to the real structs.
