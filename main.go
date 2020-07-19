@@ -11,20 +11,20 @@ import (
 	"os"
 
 	"github.com/issmirnov/docker-updater/config"
+	"github.com/issmirnov/docker-updater/docker"
 	"github.com/issmirnov/docker-updater/interfaces"
+	"github.com/issmirnov/docker-updater/semver"
 	"github.com/op/go-logging"
 )
 
-const appName = "docker-updater"
-
-var log = logging.MustGetLogger(appName)
+var log = logging.MustGetLogger(config.AppName)
 
 var Commit = "xxxxxx"
 var Version = "x.x.x"
 var Branch = "x"
 
 var (
-	Context interfaces.Context
+	Ctx interfaces.Context
 )
 
 // Pass writer. Pass in ioutil.Discard to silence logs.
@@ -37,9 +37,9 @@ func setupLogging(logWriter io.Writer, debug bool) {
 	logging.SetBackend(backend1Formatter)
 
 	if debug {
-		logging.SetLevel(logging.DEBUG, appName)
+		logging.SetLevel(logging.DEBUG, config.AppName)
 	} else {
-		logging.SetLevel(logging.WARNING, appName)
+		logging.SetLevel(logging.WARNING, config.AppName)
 	}
 }
 
@@ -56,22 +56,33 @@ func main() {
 	setupLogging(os.Stdout, *debug)
 
 	//_ = config // FIXME
-	Context.Config = config.LoadConfig(*configPath)
+	c, err := config.LoadConfig(*configPath)
+	if err != nil {
+		log.Fatalf("Problem loading config file: %s", err.Error())
+		return
+	}
+	Ctx.Config = c
 
 	if *version {
-		fmt.Printf("%s version %s (%s-%s)\n", appName, Version, Branch, Commit)
+		fmt.Printf("%s version %s (%s-%s)\n", config.AppName, Version, Branch, Commit)
 		os.Exit(0)
 	}
 
 	fmt.Println("Hello, starting up...")
 
-	tags, err := getDockerTags()
+	run(Ctx)
+
+}
+
+// separate function, so that we can test this outside of main.
+func run(ctx interfaces.Context) (tag string) {
+	tags, err := docker.GetDockerTags(ctx)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
 
-	tag := MunchTags(tags, Context)
+	tag = semver.MunchTags(tags, ctx).String()
 	log.Debugf("final tag= %s", tag)
-
+	return
 }

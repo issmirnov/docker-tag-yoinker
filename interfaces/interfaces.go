@@ -19,6 +19,8 @@ type Context struct {
 }
 
 type Config struct {
+	Image       string
+	Registry    string `default:"https://registry.hub.docker.com/v1/repositories/"`
 	Blacklist   []string
 	Whitelist   string
 	StripPrefix string `toml:"strip_prefix"`

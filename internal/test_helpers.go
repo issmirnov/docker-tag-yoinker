@@ -1,24 +1,26 @@
 package internal
 
 import (
-	"github.com/BurntSushi/toml"
-	"github.com/davecgh/go-spew/spew"
-	"github.com/issmirnov/docker-updater/interfaces"
-	"github.com/op/go-logging"
-)
+	"log"
 
-var log = logging.MustGetLogger("docker-updater")
+	"github.com/BurntSushi/toml"
+	"github.com/issmirnov/docker-updater/interfaces"
+)
 
 var validConfig = []byte(`
 blacklist = ["insiders", "rc"]
 whitelist = "alpine"
 strip_prefix = "linux-arm-"
 strip_suffix = "-alpine"
+image = "bar/baz"
+registry = "foo"
 `)
 
 func LoadValidTestConfig() interfaces.Config {
 	config := interfaces.Config{}
-	_ = toml.Unmarshal(validConfig, &config) // ignore error.
-	log.Debug(spew.Print(config))
+	err := toml.Unmarshal(validConfig, &config) // ignore error.
+	if err != nil {
+		log.Fatalf("programmer error. Fix the test: %s", err.Error())
+	}
 	return config
 }

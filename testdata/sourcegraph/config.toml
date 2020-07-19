@@ -1,4 +1,2 @@
+image = "sourcegraph/server"
 blacklist = ["insiders", "rc"]
-# whitelist = ""
-# strip_prefix = ""
-# strip_suffix = ""

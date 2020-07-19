@@ -1,4 +1,4 @@
-package main
+package docker
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 
 	"net/http"
 
+	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/mocks"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -17,7 +18,9 @@ func TestDocker(t *testing.T) {
 		// Send testing output to /dev/null
 		// setupLogging(ioutil.Discard, false)
 
-		Context.HttpClient = &mocks.MockClient{}
+		ctx := interfaces.Context{
+			HttpClient: &mocks.MockClient{},
+		}
 		log.Info("initialized mock client")
 
 		Convey("Test Get Docker Tags", func() {
@@ -33,13 +36,25 @@ func TestDocker(t *testing.T) {
 						Body:       r,
 					}, nil
 				}
-				resp, err := getDockerTags()
+				resp, err := GetDockerTags(ctx)
 
 				So(err, ShouldBeNil)
 				So(resp, ShouldNotBeNil)
 				So(resp[0], ShouldEqual, "v2.9.4")
 
 			})
+		})
+		Convey("Test building tags URL", func() {
+			ctx := interfaces.Context{
+				Config: interfaces.Config{
+					Registry: "foo",
+					Image:    "bar/baz",
+				},
+			}
+			url := buildUrl(ctx)
+
+			So(url, ShouldEqual, "foo/bar/baz/tags")
+
 		})
 	})
 }

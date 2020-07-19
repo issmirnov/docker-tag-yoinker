@@ -9,16 +9,19 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
-var log = logging.MustGetLogger("docker-updater")
+const AppName = "docker-updater"
 
-func LoadConfig(fname string) interfaces.Config {
+var log = logging.MustGetLogger(AppName)
+
+func LoadConfig(fname string) (config interfaces.Config, err error) {
 	doc, err := ioutil.ReadFile(fname)
 	if err != nil {
-		log.Fatalf("Could not read config file: %s", err.Error())
+		log.Errorf("Could not read config file: %s", err.Error())
+		return
 	}
 
-	config := interfaces.Config{}
+	config = interfaces.Config{}
 	toml.Unmarshal(doc, &config)
 	log.Debug(spew.Print(config))
-	return config
+	return config, nil
 }

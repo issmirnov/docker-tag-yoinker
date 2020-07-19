@@ -1,8 +1,9 @@
-package main
+package semver
 
 import (
 	"testing"
 
+	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/internal"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -14,12 +15,15 @@ func TestSemver(t *testing.T) {
 	Convey("Setup", t, func() {
 		// Send testing output to /dev/null
 		// setupLogging(ioutil.Discard, false)
-		Context.Config = internal.LoadValidTestConfig()
+		ctx := interfaces.Context{
+			Config: internal.LoadValidTestConfig(),
+		}
+
 		tags := []string{"v3.13.4-insiders", "v3.12.0-rc", targetVersion}
 
 		Convey("Test Filter Results", func() {
 			Convey("filterResults returns correct tags", func() {
-				filtered := filterResults(tags, Context)
+				filtered := filterResults(tags, ctx)
 
 				So(filtered, ShouldNotBeNil)
 				So(filtered, ShouldResemble, []string{targetVersion})
@@ -27,7 +31,7 @@ func TestSemver(t *testing.T) {
 			})
 
 			Convey("stripPrefixAndSuffix munches correctly", func() {
-				stripped := stripPrefixAndSuffix([]string{targetVersion}, Context)
+				stripped := stripPrefixAndSuffix([]string{targetVersion}, ctx)
 
 				So(stripped, ShouldNotBeNil)
 				So(stripped, ShouldResemble, []string{"v3.11"})
@@ -41,7 +45,7 @@ func TestSemver(t *testing.T) {
 			})
 
 			Convey("End to end flow works", func() {
-				semvers := MunchTags(tags, Context)
+				semvers := MunchTags(tags, ctx)
 
 				So(semvers, ShouldNotBeNil)
 				So(semvers.String(), ShouldEqual, "3.11.0")
@@ -49,7 +53,7 @@ func TestSemver(t *testing.T) {
 
 			Convey("End to end flow works with sorting logic", func() {
 				tags := append(tags, "linux-arm-v3.12-alpine")
-				semvers := MunchTags(tags, Context)
+				semvers := MunchTags(tags, ctx)
 
 				So(semvers, ShouldNotBeNil)
 				So(semvers.String(), ShouldEqual, "3.12.0")
