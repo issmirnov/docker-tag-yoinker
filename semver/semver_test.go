@@ -5,12 +5,16 @@ import (
 
 	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/internal"
+	"github.com/rs/zerolog"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 const targetVersion = "linux-arm-v3.11-alpine"
 
 func TestSemver(t *testing.T) {
+
+	// Send testing output to /dev/null
+	zerolog.SetGlobalLevel(zerolog.FatalLevel)
 
 	Convey("Setup", t, func() {
 		// Send testing output to /dev/null

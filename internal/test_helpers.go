@@ -1,10 +1,9 @@
 package internal
 
 import (
-	"log"
-
 	"github.com/BurntSushi/toml"
 	"github.com/issmirnov/docker-updater/interfaces"
+	"github.com/rs/zerolog/log"
 )
 
 var validConfig = []byte(`
@@ -20,7 +19,7 @@ func LoadValidTestConfig() interfaces.Config {
 	config := interfaces.Config{}
 	err := toml.Unmarshal(validConfig, &config) // ignore error.
 	if err != nil {
-		log.Fatalf("programmer error. Fix the test: %s", err.Error())
+		log.Fatal().Msgf("programmer error. Fix the test: %s", err.Error())
 	}
 	return config
 }

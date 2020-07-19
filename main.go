@@ -1,23 +1,18 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
-
-	// "log" // TODO implement logging (like my other projects)
-
-	"flag"
-
 	"os"
 
 	"github.com/issmirnov/docker-updater/config"
 	"github.com/issmirnov/docker-updater/docker"
 	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/semver"
-	"github.com/op/go-logging"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
-
-var log = logging.MustGetLogger(config.AppName)
 
 var Commit = "xxxxxx"
 var Version = "x.x.x"
@@ -29,17 +24,9 @@ var (
 
 // Pass writer. Pass in ioutil.Discard to silence logs.
 func setupLogging(logWriter io.Writer, debug bool) {
-	var format = logging.MustStringFormatter(
-		`%{color}%{shortfile} (%{shortfunc}) ▶ %{color:reset}%{message}`,
-	)
-	backend1 := logging.NewLogBackend(logWriter, "", 0)
-	backend1Formatter := logging.NewBackendFormatter(backend1, format)
-	logging.SetBackend(backend1Formatter)
-
+	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 	if debug {
-		logging.SetLevel(logging.DEBUG, config.AppName)
-	} else {
-		logging.SetLevel(logging.WARNING, config.AppName)
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 }
 
@@ -58,13 +45,13 @@ func main() {
 	//_ = config // FIXME
 	c, err := config.LoadConfig(*configPath)
 	if err != nil {
-		log.Fatalf("Problem loading config file: %s", err.Error())
+		log.Fatal().Msgf("Problem loading config file: %s", err.Error())
 		return
 	}
 	Ctx.Config = c
 
 	if *version {
-		fmt.Printf("%s version %s (%s-%s)\n", config.AppName, Version, Branch, Commit)
+		fmt.Printf("version %s (%s-%s)\n", Version, Branch, Commit)
 		os.Exit(0)
 	}
 
@@ -78,11 +65,11 @@ func main() {
 func run(ctx interfaces.Context) (tag string) {
 	tags, err := docker.GetDockerTags(ctx)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Msg(err.Error())
 		return
 	}
 
 	tag = semver.MunchTags(tags, ctx).String()
-	log.Debugf("final tag= %s", tag)
+	log.Debug().Msgf("final tag= %s", tag)
 	return
 }

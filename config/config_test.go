@@ -4,13 +4,14 @@ import (
 	"testing"
 
 	"github.com/issmirnov/docker-updater/internal"
+	"github.com/rs/zerolog"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestValidConfig(t *testing.T) {
 
 	// Send testing output to /dev/null
-	// setupLogging(ioutil.Discard, false)
+	zerolog.SetGlobalLevel(zerolog.FatalLevel)
 
 	Convey("Setup", t, func() {
 

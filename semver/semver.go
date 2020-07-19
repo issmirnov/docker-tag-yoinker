@@ -6,13 +6,10 @@ import (
 
 	"github.com/Masterminds/semver"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/issmirnov/docker-updater/config"
 	"github.com/issmirnov/docker-updater/filters"
 	"github.com/issmirnov/docker-updater/interfaces"
-	"github.com/op/go-logging"
+	"github.com/rs/zerolog/log"
 )
-
-var log = logging.MustGetLogger(config.AppName)
 
 func filterResults(tags []string, ctx interfaces.Context) (res []string) {
 
@@ -59,7 +56,7 @@ func processTags(tags []string) (res []*semver.Version) {
 	for _, tag := range tags {
 		v, err := semver.NewVersion(tag)
 		if err != nil {
-			log.Warning(err)
+			log.Warn().Msg(err.Error())
 		} else {
 			res = append(res, v)
 		}
@@ -73,7 +70,7 @@ func MunchTags(tags []string, ctx interfaces.Context) *semver.Version {
 	stripped := stripPrefixAndSuffix(filtered, ctx)
 	parsed := processTags(stripped)
 	sort.Sort(semver.Collection(parsed)) // Note: sort is ascending.
-	log.Debug(spew.Print(parsed))
+	log.Debug().Msg(spew.Sprint(parsed))
 	return parsed[len(parsed)-1] // return last element
 
 }

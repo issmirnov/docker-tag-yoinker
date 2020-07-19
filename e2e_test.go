@@ -11,6 +11,8 @@ import (
 	"github.com/issmirnov/docker-updater/config"
 	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/mocks"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -18,13 +20,13 @@ func TestE2E(t *testing.T) {
 
 	Convey("Setup", t, func() {
 		// Send testing output to /dev/null
-		setupLogging(ioutil.Discard, false)
+		zerolog.SetGlobalLevel(zerolog.FatalLevel)
 
 		ctx := interfaces.Context{
 			HttpClient: &mocks.MockClient{},
 			//Config:     internal.LoadValidTestConfig(),
 		}
-		log.Info("initialized mock client")
+		log.Info().Msg("initialized mock client")
 
 		Convey("Run main app", func() {
 

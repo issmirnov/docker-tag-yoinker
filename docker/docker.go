@@ -7,18 +7,15 @@ import (
 
 	"strings"
 
-	"github.com/issmirnov/docker-updater/config"
 	"github.com/issmirnov/docker-updater/interfaces"
-	"github.com/op/go-logging"
+	"github.com/rs/zerolog/log"
 )
-
-var log = logging.MustGetLogger(config.AppName)
 
 func buildUrl(ctx interfaces.Context) string {
 	//if ctx.Config.Registry
 	if !strings.HasSuffix(ctx.Config.Registry, "/") {
 		ctx.Config.Registry += "/"
-		log.Warning("Registry url did not have trailing slash, adding automatically. Please fix config.")
+		log.Warn().Msg("Registry url did not have trailing slash, adding automatically. Please fix config.")
 	}
 	return ctx.Config.Registry + ctx.Config.Image + "/tags"
 }
@@ -30,16 +27,16 @@ func GetDockerTags(ctx interfaces.Context) (res []string, err error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	resp, err := ctx.HttpClient.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Msg(err.Error())
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Msg(err.Error())
 		return
 	}
 
-	log.Debug(string(body))
+	log.Debug().Msg(string(body))
 
 	tags := []interfaces.Tag{}
 	err = json.Unmarshal(body, &tags)
