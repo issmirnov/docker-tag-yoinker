@@ -1,4 +1,4 @@
-TARGET=docker-tag-yoinker
+TARGET=dty
 
 CGO_CFLAGS=-I/usr/local/include
 CGO_LDFLAGS=-L/usr/local/lib
@@ -35,7 +35,7 @@ doc:
 
 ## Build and run
 run: build
-	./$(TARGET) -c testdata/sourcegraph/config.toml
+	./$(TARGET) -config testdata/sourcegraph/config.toml
 
 ## Run go tests
 test:
