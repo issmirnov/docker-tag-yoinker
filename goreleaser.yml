@@ -1,7 +1,7 @@
 # https://github.com/goreleaser/goreleaser/blob/master/.goreleaser.yml
 build:
 main: .
-binary: docker-updater
+binary: docker-tag-yoinker
 goos:
 - darwin
 - linux

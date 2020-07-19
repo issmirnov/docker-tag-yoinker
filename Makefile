@@ -1,4 +1,4 @@
-TARGET=docker-updater
+TARGET=docker-tag-yoinker
 
 CGO_CFLAGS=-I/usr/local/include
 CGO_LDFLAGS=-L/usr/local/lib

@@ -212,7 +212,7 @@ $RECYCLE.BIN/
 
 
 # compiled binaries
-docker-updater
+docker-tag-yoinker
 
 # test artifacts
 coverage.txt

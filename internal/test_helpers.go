@@ -2,7 +2,7 @@ package internal
 
 import (
 	"github.com/BurntSushi/toml"
-	"github.com/issmirnov/docker-updater/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
 	"github.com/rs/zerolog/log"
 )
 

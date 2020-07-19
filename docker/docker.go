@@ -7,7 +7,7 @@ import (
 
 	"strings"
 
-	"github.com/issmirnov/docker-updater/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
 )
 
 func buildUrl(ctx interfaces.Context) string {

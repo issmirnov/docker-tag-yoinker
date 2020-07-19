@@ -3,8 +3,8 @@ package semver
 import (
 	"testing"
 
-	"github.com/issmirnov/docker-updater/interfaces"
-	"github.com/issmirnov/docker-updater/internal"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/internal"
 	"github.com/rs/zerolog"
 	. "github.com/smartystreets/goconvey/convey"
 )

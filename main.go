@@ -8,10 +8,10 @@ import (
 
 	"time"
 
-	"github.com/issmirnov/docker-updater/config"
-	"github.com/issmirnov/docker-updater/docker"
-	"github.com/issmirnov/docker-updater/interfaces"
-	"github.com/issmirnov/docker-updater/semver"
+	"github.com/issmirnov/docker-tag-yoinker/config"
+	"github.com/issmirnov/docker-tag-yoinker/docker"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/semver"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )

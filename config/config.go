@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/issmirnov/docker-updater/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
 	"github.com/pelletier/go-toml"
 	"github.com/rs/zerolog/log"
 )

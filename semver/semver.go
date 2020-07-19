@@ -6,8 +6,8 @@ import (
 
 	"github.com/Masterminds/semver"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/issmirnov/docker-updater/filters"
-	"github.com/issmirnov/docker-updater/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/filters"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
 )
 
 func filterResults(tags []string, ctx interfaces.Context) (res []string) {

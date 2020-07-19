@@ -8,9 +8,9 @@ import (
 
 	"fmt"
 
-	"github.com/issmirnov/docker-updater/config"
-	"github.com/issmirnov/docker-updater/interfaces"
-	"github.com/issmirnov/docker-updater/mocks"
+	"github.com/issmirnov/docker-tag-yoinker/config"
+	"github.com/issmirnov/docker-tag-yoinker/interfaces"
+	"github.com/issmirnov/docker-tag-yoinker/mocks"
 	"github.com/rs/zerolog"
 	. "github.com/smartystreets/goconvey/convey"
 )
