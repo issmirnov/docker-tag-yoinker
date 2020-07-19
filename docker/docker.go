@@ -38,7 +38,7 @@ func GetDockerTags(ctx interfaces.Context) (res []string, err error) {
 		log.Fatal(err)
 		return
 	}
-	//res = string(body)
+
 	log.Debug(string(body))
 
 	tags := []interfaces.Tag{}

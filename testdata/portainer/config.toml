@@ -1,0 +1,4 @@
+image = "portainer/portainer"
+blacklist = ["windows"]
+whitelist = "linux-amd64"
+strip_prefix = "linux-amd64-"

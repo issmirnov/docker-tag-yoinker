@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-wget https://hub.docker.com/r/sourcegraph/server/tags -O tags.json
+rm tags.json
+wget https://registry.hub.docker.com/v1/repositories/sourcegraph/server/tags -O tags.json
