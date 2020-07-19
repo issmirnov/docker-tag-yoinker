@@ -18,23 +18,25 @@ matrix:
       env:
         - LATEST=true
     - go: 1.14.x
+      env:
+        - SUPPORT=true
     - go: tip
+      env:
+        - TIP=true
   allow_failures:
     - go: tip
-
-
 
 # https://docs.travis-ci.com/user/reference/overview/#virtualisation-environment-vs-operating-system
 os:
   - linux
-  - osx
 
 script:
+  - go get -v ./...
+  - go get -u github.com/smartystreets/goconvey/convey
   - diff -u <(echo -n) <(go fmt $(go list ./...))
   - go vet $(go list ./...)
   - go test -short -v ./... -race -coverprofile=coverage.txt -covermode=atomic
   - go build -v ./...
-  - ./e2e.sh
 
 # calls goreleaser
 # https://docs.travis-ci.com/user/deployment

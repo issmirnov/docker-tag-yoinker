@@ -1,0 +1,3 @@
+image = "ghost"
+whitelist = "alpine"
+strip_suffix = "-alpine"

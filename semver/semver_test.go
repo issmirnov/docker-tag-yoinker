@@ -49,16 +49,16 @@ func TestSemver(t *testing.T) {
 			})
 
 			Convey("End to end flow works", func() {
-				semvers := MunchTags(tags, ctx)
-
+				semvers, err := MunchTags(tags, ctx)
+				So(err, ShouldBeNil)
 				So(semvers, ShouldNotBeNil)
 				So(semvers.String(), ShouldEqual, "3.11.0")
 			})
 
 			Convey("End to end flow works with sorting logic", func() {
 				tags := append(tags, "linux-arm-v3.12-alpine")
-				semvers := MunchTags(tags, ctx)
-
+				semvers, err := MunchTags(tags, ctx)
+				So(err, ShouldBeNil)
 				So(semvers, ShouldNotBeNil)
 				So(semvers.String(), ShouldEqual, "3.12.0")
 			})

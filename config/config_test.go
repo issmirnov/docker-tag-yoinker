@@ -34,7 +34,7 @@ func TestValidConfig(t *testing.T) {
 			So(err, ShouldBeNil)
 
 			So(ctx.Config.Blacklist, ShouldResemble, []string{"insiders", "rc"})
-			So(ctx.Config.Whitelist, ShouldEqual, "alpine")
+			So(ctx.Config.Whitelist, ShouldEqual, "light")
 			So(ctx.Config.StripPrefix, ShouldEqual, "linux-arm-")
 			So(ctx.Config.StripSuffix, ShouldEqual, "-alpine")
 		})

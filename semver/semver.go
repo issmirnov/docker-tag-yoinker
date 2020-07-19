@@ -4,6 +4,8 @@ import (
 	"sort"
 	"strings"
 
+	"fmt"
+
 	"github.com/Masterminds/semver"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/issmirnov/docker-tag-yoinker/filters"
@@ -64,12 +66,18 @@ func processTags(tags []string, ctx interfaces.Context) (res []*semver.Version) 
 	return
 }
 
-func MunchTags(tags []string, ctx interfaces.Context) *semver.Version {
+func MunchTags(tags []string, ctx interfaces.Context) (*semver.Version, error) {
+	if len(tags) == 0 {
+		return nil, fmt.Errorf("Error, no tags were found. Please recheck your config file.")
+	}
 	filtered := filterResults(tags, ctx)
 	stripped := stripPrefixAndSuffix(filtered, ctx)
 	parsed := processTags(stripped, ctx)
 	sort.Sort(semver.Collection(parsed)) // Note: sort is ascending.
 	ctx.Logger.Debug().Msg(spew.Sprint(parsed))
-	return parsed[len(parsed)-1] // return last element
+	if len(parsed) == 0 {
+		return nil, fmt.Errorf("Sorry, but no tags match the rules set in your config file.")
+	}
+	return parsed[len(parsed)-1], nil // return last element
 
 }

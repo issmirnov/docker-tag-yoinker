@@ -58,6 +58,8 @@ func TestE2E(t *testing.T) {
 				cases := map[string]string{
 					"sourcegraph": "3.17.3",
 					"portainer":   "1.24.0",
+					"minecraft":   "1.6.0",
+					"ghost":       "3.25.0",
 				}
 
 				for target, version := range cases {
@@ -67,7 +69,7 @@ func TestE2E(t *testing.T) {
 
 						err = config.LoadConfig(fmt.Sprintf("./testdata/%s/config.toml", target), &ctx)
 						So(err, ShouldBeNil)
-						So(ctx.Config.Image, ShouldStartWith, target)
+						So(ctx.Config.Image, ShouldContainSubstring, target)
 
 						mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 							r := ioutil.NopCloser(bytes.NewReader([]byte(tagsResp)))

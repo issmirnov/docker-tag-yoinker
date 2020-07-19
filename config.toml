@@ -1,3 +1,5 @@
+# This is a complete config file. For live examples, see the testdata/ folder.
+
 # the name of the docker image to pull
 image = "sourcegraph/server"
 
@@ -6,11 +8,11 @@ registry = "https://registry.hub.docker.com/v1/repositories/"
 
 blacklist = ["insiders", "rc"]
 
-# comments
-whitelist = "alpine"
+# If you only want certain images, set this whitelist. ie, "alpine", "light", etc
+whitelist = "light"
 
-# Remove prefix. Note the trailing dash.
+# Removes prefix. Note the trailing dash - the prefix is removed EXACTLY as provided.
 strip_prefix = "linux-arm-"
 
-# Removes suffix. Note leading dash.
+# Removes suffix. Note leading dash - the suffix is removed EXACTLY as provided.
 strip_suffix = "-alpine"

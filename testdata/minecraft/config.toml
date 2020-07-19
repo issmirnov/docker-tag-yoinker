@@ -1,0 +1,3 @@
+image = "itzg/minecraft-server"
+whitelist = "adopt13"
+strip_suffix = "-adopt13"

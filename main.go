@@ -72,7 +72,12 @@ func run(ctx interfaces.Context) (tag string) {
 		return
 	}
 
-	tag = semver.MunchTags(tags, ctx).String()
+	ver, err := semver.MunchTags(tags, ctx)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	tag = ver.String()
 	ctx.Logger.Debug().Msgf("final tag= %s", tag)
 	return
 }
