@@ -49,19 +49,15 @@ func main() {
 	setupLogging(os.Stdout, *debug)
 
 	//_ = config // FIXME
-	c, err := config.LoadConfig(*configPath)
-	if err != nil {
+	if err := config.LoadConfig(*configPath, &Ctx); err != nil {
 		log.Fatal().Msgf("Problem loading config file: %s", err.Error())
 		return
 	}
-	Ctx.Config = c
 
 	if *version {
 		fmt.Printf("version %s (%s-%s)\n", Version, Branch, Commit)
 		os.Exit(0)
 	}
-
-	fmt.Println("Hello, starting up...")
 
 	tag := run(Ctx)
 	fmt.Print(tag)
@@ -77,6 +73,6 @@ func run(ctx interfaces.Context) (tag string) {
 	}
 
 	tag = semver.MunchTags(tags, ctx).String()
-	log.Debug().Msgf("final tag= %s", tag)
+	ctx.Logger.Debug().Msgf("final tag= %s", tag)
 	return
 }

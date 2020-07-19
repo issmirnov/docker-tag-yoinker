@@ -9,15 +9,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func LoadConfig(fname string) (config interfaces.Config, err error) {
+func LoadConfig(fname string, ctx *interfaces.Context) (err error) {
 	doc, err := ioutil.ReadFile(fname)
 	if err != nil {
 		log.Error().Msgf("Could not read config file: %s", err.Error())
 		return
 	}
 
-	config = interfaces.Config{}
-	toml.Unmarshal(doc, &config)
-	log.Debug().Msg(spew.Sprint(config))
-	return config, nil
+	//config := interfaces.Config{}
+	toml.Unmarshal(doc, &ctx.Config)
+	ctx.Logger.Debug().Msg(spew.Sprint(ctx.Config))
+
+	return nil
 }
