@@ -213,6 +213,10 @@ $RECYCLE.BIN/
 
 # compiled binaries
 docker-tag-yoinker
+dty
 
 # test artifacts
 coverage.txt
+
+# goreleaser dist
+dist/
