@@ -12,7 +12,6 @@ import (
 	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/mocks"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -26,7 +25,7 @@ func TestE2E(t *testing.T) {
 			HttpClient: &mocks.MockClient{},
 			//Config:     internal.LoadValidTestConfig(),
 		}
-		log.Info().Msg("initialized mock client")
+		ctx.Logger.Info().Msg("initialized mock client")
 
 		Convey("Run main app", func() {
 

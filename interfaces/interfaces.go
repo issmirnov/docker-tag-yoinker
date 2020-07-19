@@ -1,6 +1,10 @@
 package interfaces
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/rs/zerolog"
+)
 
 // HTTPClient interface
 type HTTPClient interface {
@@ -16,6 +20,7 @@ type Tag struct {
 type Context struct {
 	Config     Config
 	HttpClient HTTPClient
+	Logger     zerolog.Logger
 }
 
 type Config struct {

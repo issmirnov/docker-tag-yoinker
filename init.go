@@ -12,5 +12,6 @@ func init() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{
 		//TimeFormat: time.RFC822
 	})
+	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 
 }

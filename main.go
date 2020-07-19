@@ -6,6 +6,8 @@ import (
 	"io"
 	"os"
 
+	"time"
+
 	"github.com/issmirnov/docker-updater/config"
 	"github.com/issmirnov/docker-updater/docker"
 	"github.com/issmirnov/docker-updater/interfaces"
@@ -24,10 +26,14 @@ var (
 
 // Pass writer. Pass in ioutil.Discard to silence logs.
 func setupLogging(logWriter io.Writer, debug bool) {
+	output := zerolog.ConsoleWriter{Out: logWriter, TimeFormat: time.RFC822}
+
 	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 	if debug {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
+
+	Ctx.Logger = zerolog.New(output).With().Timestamp().Logger()
 }
 
 func main() {
@@ -57,7 +63,8 @@ func main() {
 
 	fmt.Println("Hello, starting up...")
 
-	run(Ctx)
+	tag := run(Ctx)
+	fmt.Print(tag)
 
 }
 

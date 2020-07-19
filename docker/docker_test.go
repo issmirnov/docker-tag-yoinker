@@ -9,7 +9,6 @@ import (
 
 	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/mocks"
-	"github.com/rs/zerolog/log"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -22,7 +21,7 @@ func TestDocker(t *testing.T) {
 		ctx := interfaces.Context{
 			HttpClient: &mocks.MockClient{},
 		}
-		log.Info().Msg("initialized mock client")
+		ctx.Logger.Info().Msg("initialized mock client")
 
 		Convey("Test Get Docker Tags", func() {
 			Convey("Succeeds", func() {
