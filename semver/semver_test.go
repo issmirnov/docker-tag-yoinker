@@ -42,7 +42,7 @@ func TestSemver(t *testing.T) {
 			})
 
 			Convey("processTags evals semver correctly", func() {
-				semvers := processTags([]string{"v3.11"})
+				semvers := processTags([]string{"v3.11"}, ctx)
 
 				So(semvers, ShouldNotBeNil)
 				So(semvers[0].String(), ShouldEqual, "3.11.0")

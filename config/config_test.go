@@ -3,6 +3,7 @@ package config
 import (
 	"testing"
 
+	"github.com/issmirnov/docker-updater/interfaces"
 	"github.com/issmirnov/docker-updater/internal"
 	"github.com/rs/zerolog"
 	. "github.com/smartystreets/goconvey/convey"
@@ -16,10 +17,9 @@ func TestValidConfig(t *testing.T) {
 	Convey("Setup", t, func() {
 
 		c := internal.LoadValidTestConfig()
-		blacklistArray := []string{"insiders", "rc"}
 
 		Convey("Verify TOML parses correctly.", func() {
-			So(c.Blacklist, ShouldResemble, blacklistArray)
+			So(c.Blacklist, ShouldResemble, []string{"insiders", "rc"})
 			So(c.Whitelist, ShouldEqual, "alpine")
 			So(c.StripPrefix, ShouldEqual, "linux-arm-")
 			So(c.StripSuffix, ShouldEqual, "-alpine")
@@ -27,20 +27,20 @@ func TestValidConfig(t *testing.T) {
 	})
 
 	Convey("Load sample config from repo", t, func() {
+		ctx := &interfaces.Context{}
 
 		Convey("Verify TOML parses correctly.", func() {
-			c, err := LoadConfig("../config.toml")
-			blacklistArray := []string{"insiders", "rc"}
-
+			err := LoadConfig("../config.toml", ctx)
 			So(err, ShouldBeNil)
-			So(c.Blacklist, ShouldResemble, blacklistArray)
-			So(c.Whitelist, ShouldEqual, "alpine")
-			So(c.StripPrefix, ShouldEqual, "linux-arm-")
-			So(c.StripSuffix, ShouldEqual, "-alpine")
+
+			So(ctx.Config.Blacklist, ShouldResemble, []string{"insiders", "rc"})
+			So(ctx.Config.Whitelist, ShouldEqual, "alpine")
+			So(ctx.Config.StripPrefix, ShouldEqual, "linux-arm-")
+			So(ctx.Config.StripSuffix, ShouldEqual, "-alpine")
 		})
 
 		Convey("Loading non existent file should fail.", func() {
-			_, err := LoadConfig("../config-does-not-exist.toml")
+			err := LoadConfig("../config-does-not-exist.toml", ctx)
 			So(err, ShouldNotBeNil)
 		})
 

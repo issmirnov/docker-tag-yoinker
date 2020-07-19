@@ -213,3 +213,6 @@ $RECYCLE.BIN/
 
 # compiled binaries
 docker-updater
+
+# test artifacts
+coverage.txt

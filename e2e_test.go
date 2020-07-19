@@ -34,9 +34,9 @@ func TestE2E(t *testing.T) {
 				tagsResp, err := ioutil.ReadFile("./testdata/sourcegraph/tags.json")
 				So(err, ShouldBeNil)
 
-				conf, err := config.LoadConfig("./testdata/sourcegraph/config.toml")
-				So(conf.Image, ShouldEqual, "sourcegraph/server")
-				ctx.Config = conf
+				err = config.LoadConfig("./testdata/sourcegraph/config.toml", &ctx)
+				So(err, ShouldBeNil)
+				So(ctx.Config.Image, ShouldEqual, "sourcegraph/server")
 
 				mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 					r := ioutil.NopCloser(bytes.NewReader([]byte(tagsResp)))
@@ -65,9 +65,9 @@ func TestE2E(t *testing.T) {
 						tagsResp, err := ioutil.ReadFile(fmt.Sprintf("./testdata/%s/tags.json", target))
 						So(err, ShouldBeNil)
 
-						conf, err := config.LoadConfig(fmt.Sprintf("./testdata/%s/config.toml", target))
-						So(conf.Image, ShouldStartWith, target)
-						ctx.Config = conf
+						err = config.LoadConfig(fmt.Sprintf("./testdata/%s/config.toml", target), &ctx)
+						So(err, ShouldBeNil)
+						So(ctx.Config.Image, ShouldStartWith, target)
 
 						mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 							r := ioutil.NopCloser(bytes.NewReader([]byte(tagsResp)))
