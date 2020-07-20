@@ -23,34 +23,10 @@ func TestE2E(t *testing.T) {
 
 		ctx := interfaces.Context{
 			HttpClient: &mocks.MockClient{},
-			//Config:     internal.LoadValidTestConfig(),
 		}
 		ctx.Logger.Info().Msg("initialized mock client")
 
-		Convey("Run main app", func() {
-
-			Convey("Test on cached sourcegraph data", func() {
-
-				tagsResp, err := ioutil.ReadFile("./testdata/sourcegraph/tags.json")
-				So(err, ShouldBeNil)
-
-				err = config.LoadConfig("./testdata/sourcegraph/config.toml", &ctx)
-				So(err, ShouldBeNil)
-				So(ctx.Config.Image, ShouldEqual, "sourcegraph/server")
-
-				mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
-					r := ioutil.NopCloser(bytes.NewReader([]byte(tagsResp)))
-					return &http.Response{
-						StatusCode: 200,
-						Body:       r,
-					}, nil
-				}
-
-				tag := run(ctx)
-
-				So(tag, ShouldEqual, "3.17.3")
-
-			})
+		Convey("Run main app end to end", func() {
 
 			Convey("Test on cached data", func() {
 
