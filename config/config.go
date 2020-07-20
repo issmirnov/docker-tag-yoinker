@@ -9,6 +9,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// LoadConfig takes a file name and the global context. It will save the parsed
+// config to the provided global context.
 func LoadConfig(fname string, ctx *interfaces.Context) (err error) {
 	doc, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -16,7 +18,6 @@ func LoadConfig(fname string, ctx *interfaces.Context) (err error) {
 		return
 	}
 
-	//config := interfaces.Config{}
 	toml.Unmarshal(doc, &ctx.Config)
 	ctx.Logger.Debug().Msg(spew.Sprint(ctx.Config))
 

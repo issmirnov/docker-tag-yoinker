@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-// HTTPClient interface
+// HTTPClient interface, used for mocks.
 type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
@@ -17,14 +17,21 @@ type Tag struct {
 	Layer string
 }
 
+// Context is the global context.
 type Context struct {
-	Config     Config
+	// Parsed config for app run.
+	Config Config
+	// We provide a HttpClient instance, so that we can inject mocks.
 	HttpClient HTTPClient
-	Logger     zerolog.Logger
+	// Global loggeer instance.
+	Logger zerolog.Logger
 }
 
+// Config is user provided config.toml
 type Config struct {
-	Image       string
+	// Name of image: "sourcegraph/server"
+	Image string
+	// Optional: registry url. Provides default.
 	Registry    string `default:"https://registry.hub.docker.com/v1/repositories/"`
 	Blacklist   []string
 	Whitelist   string

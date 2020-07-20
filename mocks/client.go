@@ -1,7 +1,5 @@
 package mocks
 
-// TODO mark this testonly.
-
 import "net/http"
 
 var (

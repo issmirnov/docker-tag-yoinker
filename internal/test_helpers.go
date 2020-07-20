@@ -15,6 +15,7 @@ image = "bar/baz"
 registry = "foo"
 `)
 
+// LoadValidTestConfig returns a hardcoded config for tests.
 func LoadValidTestConfig() interfaces.Config {
 	config := interfaces.Config{}
 	err := toml.Unmarshal(validConfig, &config) // ignore error.
