@@ -18,7 +18,11 @@ func LoadConfig(fname string, ctx *interfaces.Context) (err error) {
 		return
 	}
 
-	toml.Unmarshal(doc, &ctx.Config)
+	err = toml.Unmarshal(doc, &ctx.Config)
+	if err != nil {
+		log.Error().Msgf("Could not parse config file: %s", err.Error())
+		return
+	}
 	ctx.Logger.Debug().Msg(spew.Sprint(ctx.Config))
 
 	return nil

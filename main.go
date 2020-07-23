@@ -51,6 +51,7 @@ func main() {
 	//_ = config // FIXME
 	if err := config.LoadConfig(*configPath, &Ctx); err != nil {
 		log.Fatal().Msgf("Problem loading config file: %s", err.Error())
+		quit(interfaces.ConfigParseError)
 		return
 	}
 
@@ -69,15 +70,22 @@ func run(ctx interfaces.Context) (tag string) {
 	tags, err := docker.GetDockerTags(ctx)
 	if err != nil {
 		log.Fatal().Msg(err.Error())
+		quit(interfaces.UnavailableTags)
 		return
 	}
 
 	ver, err := semver.MunchTags(tags, ctx)
 	if err != nil {
 		fmt.Println(err.Error())
+		quit(interfaces.UnparseableTags)
 		return
 	}
 	tag = ver.String()
 	ctx.Logger.Debug().Msgf("final tag= %s", tag)
 	return
+}
+
+func quit(c interfaces.ExitCode) {
+	fmt.Printf(c.String())
+	os.Exit(int(c))
 }
