@@ -5,6 +5,14 @@ build:
   goos:
     - darwin
     - linux
+  goarch:
+    - amd64
+    - arm
+    - arm64
+  ignore:
+    # per https://github.com/golang/go/issues/37610, disable this pair.
+    - goos: darwin
+      goarch: 386
 checksum:
   name_template: '{{ .ProjectName }}_checksums.txt'
 archives:
