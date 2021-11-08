@@ -6,7 +6,6 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/issmirnov/docker-tag-yoinker/interfaces"
 	"github.com/pelletier/go-toml"
-	"github.com/rs/zerolog/log"
 )
 
 // LoadConfig takes a file name and the global context. It will save the parsed
@@ -14,7 +13,7 @@ import (
 func LoadConfig(fname string, ctx *interfaces.Context) (err error) {
 	doc, err := ioutil.ReadFile(fname)
 	if err != nil {
-		log.Error().Msgf("Could not read config file: %s", err.Error())
+		ctx.Logger.Error().Msgf("Could not read config file: %s", err.Error())
 		return
 	}
 
